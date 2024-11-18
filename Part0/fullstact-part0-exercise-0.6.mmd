@@ -1,0 +1,14 @@
+sequenceDiagram
+    participant browser
+    participant server
+
+    browser->>server: POST https://studies.cs.helsinki.fi/exampleapp/new_note_spa
+    activate server
+    server-->>browser: Status 201 Created
+    deactivate server
+
+    Note right of browser: The user sees the new note displayed on the page after the submission.
+    browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/notes (for updated notes list)
+    activate server
+    server-->>browser: Status 200 OK, Updated notes list
+    deactivate server

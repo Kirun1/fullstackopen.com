@@ -1,0 +1,64 @@
+sequenceDiagram
+    participant browser
+    participant server
+
+    Note right of browser: User clicks a form button on the page
+    browser->>server: POST https://studies.cs.helsinki.fi/exampleapp/new_note\nPayload: {note: "tiqwejisay"}
+    activate server
+    server-->>browser: Status 302 Found\nRedirect to notes page
+    deactivate server
+    Note right of browser: The form data is submitted and the server responds with a redirect to the notes page.
+
+    browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/notes
+    activate server
+    server-->>browser: Status 200 OK\nHTML document
+    deactivate server
+    Note right of browser: The notes page is loaded successfully, displaying the updated content.
+
+    browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/main.css
+    activate server
+    server-->>browser: Status 200 OK\nCSS file
+    deactivate server
+    Note right of browser: The page's styling is applied using the CSS file.
+
+    browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/main.js
+    activate server
+    server-->>browser: Status 200 OK\nJavaScript file
+    deactivate server
+    Note right of browser: The JavaScript file is loaded to enable dynamic functionality on the page.
+
+    browser->>server: GET blob:https://studies.cs.helsinki.fi/f0c05596-579e-4e90-85f2-d7af99b4a3e0
+    activate server
+    server-->>browser: Status 200 OK\nBlob resource
+    deactivate server
+    Note right of browser: A blob resource is loaded to enhance the functionality of the page.
+
+    browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/data.json
+    activate server
+    server-->>browser: Status 200 OK\nJSON data
+    deactivate server
+    Note right of browser: The page loads additional JSON data that might be used for updating or adding notes dynamically.
+
+    browser->>server: GET https://infird.com/cdn/b50b7f30-3efc-40a4-958b-47c84a6ef83f?uuid=e82907fa-39ab-44b3-b692-f8176c754474
+    activate server
+    server-->>browser: Status 200 OK\nBlob resource
+    deactivate server
+    Note right of browser: Another blob resource is loaded from an external CDN to add functionality.
+
+    browser->>server: GET https://infird.com/cdn/afde4f0c-4096-4aeb-b345-d1aea539851b
+    activate server
+    server-->>browser: Status 200 OK\nResource
+    deactivate server
+    Note right of browser: An additional external resource is fetched from a CDN for the page.
+
+    browser->>server: GET https://infird.com/cdn/afde4f0c-4096-4aeb-b345-d1aea539851b
+    activate server
+    server-->>browser: Status 200 OK\nBlob resource
+    deactivate server
+    Note right of browser: Another request for the same external resource is made, with the blob resource fetched for the page.
+
+    browser->>server: GET https://pos.baidu.com/dcsm?conwid=240&conhei=350&rdid=6818871&dc=3&di=u6818871&s1=2839721755&dtm=HTML_POST
+    activate server
+    server-->>browser: Status 200 OK\nResource
+    deactivate server
+    Note right of browser: A final external request is made to load a resource, potentially related to analytics or ads.

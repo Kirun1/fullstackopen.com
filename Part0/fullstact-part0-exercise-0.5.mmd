@@ -1,0 +1,57 @@
+sequenceDiagram
+    participant browser
+    participant server
+
+    browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/spa
+    activate server
+    server-->>browser: Status 200, HTML Document
+    deactivate server
+    Note right of browser: The browser renders the HTML content from the server.
+
+    browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/main.css
+    activate server
+    server-->>browser: Status 200, CSS file
+    deactivate server
+    Note right of browser: The page styling is applied from the CSS file.
+
+    browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/spa.js
+    activate server
+    server-->>browser: Status 200, JavaScript file
+    deactivate server
+    Note right of browser: The JavaScript file is executed to enable dynamic functionality.
+
+    browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/data.json
+    activate server
+    server-->>browser: Status 200, 7.9 kB, JSON data
+    deactivate server
+    Note right of browser: The browser processes the JSON data to update the page content.
+
+    browser->>server: GET blob:https://studies.cs.helsinki.fi/f84df228-ae51-4693-8878-ccb8450edf17
+    activate server
+    server-->>browser: Status 200, Blob Script
+    deactivate server
+    Note right of browser: The browser loads additional script functionality from the blob.
+
+    browser->>server: GET https://infird.com/cdn/b50b7f30-3efc-40a4-958b-47c84a6ef83f?uuid=e82907fa-39ab-44b3-b692-f8176c754474
+    activate server
+    server-->>browser: Status 200, Script
+    deactivate server
+    Note right of browser: External script resources are fetched and executed.
+
+    browser->>server: GET https://infird.com/cdn/afde4f0c-4096-4aeb-b345-d1aea539851b
+    activate server
+    server-->>browser: Status 200, Script
+    deactivate server
+    Note right of browser: Another external script is loaded for functionality.
+
+    browser->>server: GET blob:https://studies.cs.helsinki.fi/042e49fc-32f5-453b-964d-319da994bcbb
+    activate server
+    server-->>browser: Status 200, Blob Script
+    deactivate server
+    Note right of browser: A different blob script is executed to modify page behavior.
+
+    browser->>server: GET https://pos.baidu.com/dcsm?conwid=240&conhei=350&rdid=6818871&dc=3&di=u6818871&s1=2839721755&dtm=HTML_POST
+    activate server
+    server-->>browser: Failed: net::ERR_BLOCKED_BY_ORB
+    deactivate server
+    Note right of browser: The attempt to load this resource fails due to a blocked request.
