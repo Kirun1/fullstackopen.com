@@ -8,23 +8,6 @@ const Header = (props) => {
   );
 };
 
-const Statistics = (props) => {
-  const all = props.good + props.neutral + props.bad;
-  const average = all === 0 ? 0 : (props.good - props.bad) / all;
-  const positive = all === 0 ? 0 : (props.good / all) * 100;
-
-  return (
-    <div>
-      <Paragraph text={'good'} feeling={props.good} />
-      <Paragraph text={'neutral'} feeling={props.neutral} />
-      <Paragraph text={'bad'} feeling={props.bad} />
-      <Paragraph text={'all'} feeling={all} />
-      <Paragraph text={'average'} feeling={average} />
-      <Paragraph text={'positive'} feeling={`${positive}%`} />
-    </div>
-  );
-}
-
 const Paragraph = (props) => {
   return (
     <div>
@@ -40,6 +23,29 @@ const Button = (props) => {
     </div>
   );
 };
+
+const StatisticsLine = (props) => {
+  return (
+    <Paragraph text={props.text} feeling={props.feeling} />
+  );
+}
+
+const Statistics = (props) => {
+  const all = props.good + props.neutral + props.bad;
+  const average = all === 0 ? 0 : (props.good - props.bad) / all;
+  const positive = all === 0 ? 0 : (props.good / all) * 100;
+
+  return (
+    <div>
+      <StatisticsLine text={'good'} feeling={props.good} />
+      <StatisticsLine text={'neutral'} feeling={props.neutral} />
+      <StatisticsLine text={'bad'} feeling={props.bad} />
+      <StatisticsLine text={'all'} feeling={all} />
+      <StatisticsLine text={'average'} feeling={average} />
+      <StatisticsLine text={'positive'} feeling={`${positive}%`} />
+    </div>
+  );
+}
 
 const App = () => {
   const [good, setGood] = useState(0);
