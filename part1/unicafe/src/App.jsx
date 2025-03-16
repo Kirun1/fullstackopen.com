@@ -8,6 +8,23 @@ const Header = (props) => {
   );
 };
 
+const Statistics = (props) => {
+  const all = props.good + props.neutral + props.bad;
+  const average = all === 0 ? 0 : (props.good - props.bad) / all;
+  const positive = all === 0 ? 0 : (props.good / all) * 100;
+
+  return (
+    <div>
+      <Paragraph text={'good'} feeling={props.good} />
+      <Paragraph text={'neutral'} feeling={props.neutral} />
+      <Paragraph text={'bad'} feeling={props.bad} />
+      <Paragraph text={'all'} feeling={all} />
+      <Paragraph text={'average'} feeling={average} />
+      <Paragraph text={'positive'} feeling={`${positive}%`} />
+    </div>
+  );
+}
+
 const Paragraph = (props) => {
   return (
     <div>
@@ -19,7 +36,7 @@ const Paragraph = (props) => {
 const Button = (props) => {
   return (
     <div>
-      <button onClick={props.onclick}>{props.text}</button>
+      <button onClick={props.onClick}>{props.text}</button>
     </div>
   );
 };
@@ -37,18 +54,13 @@ const App = () => {
     <div>
       <Header text={'give feedback'} />
       <div style={{ display: 'flex', gap: '10px' }}>
-        <Button text={'good'} onclick={() => setGood(good + 1)} />
-        <Button text={'neutral'} onclick={() => setNeutral(neutral + 1)} />
-        <Button text={'bad'} onclick={() => setBad(bad + 1)} />
+        <Button text={'good'} onClick={() => setGood(good + 1)} />
+        <Button text={'neutral'} onClick={() => setNeutral(neutral + 1)} />
+        <Button text={'bad'} onClick={() => setBad(bad + 1)} />
       </div>
 
       <Header text={'statistics'} />
-      <Paragraph text={'good'} feeling={good} />
-      <Paragraph text={'neutral'} feeling={neutral} />
-      <Paragraph text={'bad'} feeling={bad} />
-      <Paragraph text={'all'} feeling={all} />
-      <Paragraph text={'average'} feeling={average} />
-      <Paragraph text={'positive'} feeling={`${positive}%`} />
+      {all === 0 ? <p>No feedback given</p> : <Statistics good={good} neutral={neutral} bad={bad} />}
     </div>
   );
 };
