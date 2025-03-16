@@ -26,6 +26,10 @@ const App = () => {
     setVotes(newVotes)
   }
 
+  const mostVotedIndex = votes.indexOf(Math.max(...votes))
+
+  const Heading = ( props ) => <h1>{props.text}</h1>
+
   const Button = ( props ) => {
     return (
       <button onClick={props.handleClick}>
@@ -36,10 +40,21 @@ const App = () => {
 
   return (
     <div>
+      <Heading text="Anecdote of the day" />
       <div>{anecdotes[selected]}</div>
       <div>has {votes[selected]} votes</div>
       <Button handleClick={handleVote} text="vote" />
       <Button handleClick={handleRandomAnecdote} text="next anecdote" />
+
+      <Heading text="Anecdote with most votes" />
+      {votes[mostVotedIndex] > 0 ? (
+        <div>
+          <div>{anecdotes[mostVotedIndex]}</div>
+          <div>has {votes[mostVotedIndex]} votes</div>
+        </div>
+      ) : (
+        <div>No votes given yet</div>
+      )}
     </div>
   )
 }
