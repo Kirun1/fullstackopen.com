@@ -8,14 +8,6 @@ const Header = (props) => {
   );
 };
 
-const Paragraph = (props) => {
-  return (
-    <div>
-      <p>{props.text} {props.feeling}</p>
-    </div>
-  );
-};
-
 const Button = (props) => {
   return (
     <div>
@@ -26,7 +18,10 @@ const Button = (props) => {
 
 const StatisticsLine = (props) => {
   return (
-    <Paragraph text={props.text} feeling={props.feeling} />
+    <tr>
+      <td>{props.text}</td>
+      <td>{props.feeling}</td>
+    </tr>
   );
 }
 
@@ -37,12 +32,18 @@ const Statistics = (props) => {
 
   return (
     <div>
-      <StatisticsLine text={'good'} feeling={props.good} />
-      <StatisticsLine text={'neutral'} feeling={props.neutral} />
-      <StatisticsLine text={'bad'} feeling={props.bad} />
-      <StatisticsLine text={'all'} feeling={all} />
-      <StatisticsLine text={'average'} feeling={average} />
-      <StatisticsLine text={'positive'} feeling={`${positive}%`} />
+      {all === 0 ? <p>No feedback given</p> :
+        <table>
+          <tbody>
+            <StatisticsLine text={'good'} feeling={props.good} />
+            <StatisticsLine text={'neutral'} feeling={props.neutral} />
+            <StatisticsLine text={'bad'} feeling={props.bad} />
+            <StatisticsLine text={'all'} feeling={all} />
+            <StatisticsLine text={'average'} feeling={average} />
+            <StatisticsLine text={'positive'} feeling={positive + ' %'} />
+          </tbody>
+        </table>
+      }
     </div>
   );
 }
@@ -51,10 +52,6 @@ const App = () => {
   const [good, setGood] = useState(0);
   const [neutral, setNeutral] = useState(0);
   const [bad, setBad] = useState(0);
-
-  const all = good + neutral + bad;
-  const average = all === 0 ? 0 : (good - bad) / all;
-  const positive = all === 0 ? 0 : (good / all) * 100;
 
   return (
     <div>
@@ -66,7 +63,7 @@ const App = () => {
       </div>
 
       <Header text={'statistics'} />
-      {all === 0 ? <p>No feedback given</p> : <Statistics good={good} neutral={neutral} bad={bad} />}
+      <Statistics good={good} neutral={neutral} bad={bad} />
     </div>
   );
 };
