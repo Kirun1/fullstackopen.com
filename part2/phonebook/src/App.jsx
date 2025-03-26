@@ -1,4 +1,7 @@
-import { useState } from 'react'
+import { useState } from 'react';
+import Filter from './components/Filter';
+import PersonForm from './components/PersonForm';
+import Persons from './components/Persons';
 
 const App = () => {
   const [persons, setPersons] = useState([
@@ -7,26 +10,17 @@ const App = () => {
     { name: 'Dan Abramov', number: '12-43-234345', id: 3 },
     { name: 'Mary Poppendieck', number: '39-23-6423122', id: 4 }
   ]) 
-  const [newName, setNewName] = useState('')
-  const [newNumber, setNewNumber] = useState('')
-  const [searchTerm, setSearchTerm] = useState('')
+  const [newName, setNewName] = useState('');
+  const [newNumber, setNewNumber] = useState('');
+  const [searchTerm, setSearchTerm] = useState('');
 
-  const handleNameChange = (event) => {
-    setNewName(event.target.value);
-  }
-
-  const handleNumberChange = (event) => {
-    setNewNumber(event.target.value);
-  }
-
-  const handleSearchChange = (event) => {
-    setSearchTerm(event.target.value);
-  }
+  const handleSearchChange = (event) => setSearchTerm(event.target.value);
+  const handleNameChange = (event) => setNewName(event.target.value);
+  const handleNumberChange = (event) => setNewNumber(event.target.value);
 
   const addPerson = (event) => {
     event.preventDefault();
 
-    // Check if name already exists
     if (persons.some(person => person.name.toLowerCase() === newName.toLowerCase())) {
       alert(`${newName} is already added to phonebook`);
       return;
@@ -36,43 +30,35 @@ const App = () => {
       name: newName,
       number: newNumber,
       id: persons.length + 1
-    }
+    };
     setPersons(persons.concat(newPerson));
-    setNewName('')
-    setNewNumber('')
-  }
+    setNewName('');
+    setNewNumber('');
+  };
 
   // Filter persons based on search term (case-insensitive)
-  const personsToShow = persons.filter(person => person.name.toLowerCase().includes(searchTerm.toLowerCase()));
+  const personsToShow = persons.filter(person =>
+    person.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   return (
     <div>
       <h2>Phonebook</h2>
-      {/* Search Input  */}
-      <div>
-        Filter shown with <input value={searchTerm} onChange={handleSearchChange}/>
-      </div>
-      {/* Add Person Form  */}
-      <form onSubmit={addPerson}>
-        <div>
-          name: <input value={newName} onChange={handleNameChange}/>
-        </div>
-        <div>
-          number: <input value={newNumber} onChange={handleNumberChange}/>
-        </div>
-        <div>
-          <button type="submit">add</button>
-        </div>
-      </form>
-      {/* Person List  */}
-      <h2>Numbers</h2>
-      <ul>
-        {personsToShow.map((person) => (
-          <li key={person.id}>{person.name} {person.number}</li>
-        ))}
-      </ul>
+      <Filter searchTerm={searchTerm} handleSearchChange={handleSearchChange} />
+      
+      <h3>Add a new</h3>
+      <PersonForm 
+        newName={newName} 
+        newNumber={newNumber} 
+        handleNameChange={handleNameChange} 
+        handleNumberChange={handleNumberChange} 
+        addPerson={addPerson} 
+      />
+
+      <h3>Numbers</h3>
+      <Persons persons={personsToShow} />
     </div>
-  )
+  );
 }
 
 export default App
