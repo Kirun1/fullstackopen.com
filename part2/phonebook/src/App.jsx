@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import axios from 'axios';
+import personService from './services/persons';
 import Filter from './components/Filter';
 import PersonForm from './components/PersonForm';
 import Persons from './components/Persons';
@@ -12,9 +12,9 @@ const App = () => {
 
   useEffect(() => {
     console.log('effect');
-    axios.get('http://localhost:3001/persons').then(response => {
-      console.log('promise fulfilled')
-      setPersons(response.data)
+    personService.getAll()
+      .then(initialPersons => {
+        setPersons(initialPersons)
     }).catch(error => {
       console.error('Error fetching data:', error);
     }
@@ -38,11 +38,9 @@ const App = () => {
       number: newNumber,
       // id: persons.length + 1 //Remove `id` here; let the server generate it
     };
-    axios.post('http://localhost:3001/persons', newPerson)
-      .then(response => {
-        setPersons(persons.concat(response.data));
-        setNewName('');
-        setNewNumber('');
+    personService.create(newPerson)
+      .then(returnedPerson => {
+        setPersons(persons.concat(returnedPerson));
       })
       .catch(error => {
         console.error('Error adding person:', error);
