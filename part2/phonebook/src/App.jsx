@@ -15,8 +15,11 @@ const App = () => {
     axios.get('http://localhost:3001/persons').then(response => {
       console.log('promise fulfilled')
       setPersons(response.data)
-    })
-  })
+    }).catch(error => {
+      console.error('Error fetching data:', error);
+    }
+    )
+  }, [])
 
   const handleSearchChange = (event) => setSearchTerm(event.target.value);
   const handleNameChange = (event) => setNewName(event.target.value);
@@ -33,11 +36,17 @@ const App = () => {
     const newPerson = {
       name: newName,
       number: newNumber,
-      id: persons.length + 1
+      // id: persons.length + 1 //Remove `id` here; let the server generate it
     };
-    setPersons(persons.concat(newPerson));
-    setNewName('');
-    setNewNumber('');
+    axios.post('http://localhost:3001/persons', newPerson)
+      .then(response => {
+        setPersons(persons.concat(response.data));
+        setNewName('');
+        setNewNumber('');
+      })
+      .catch(error => {
+        console.error('Error adding person:', error);
+      })
   };
 
   // Filter persons based on search term (case-insensitive)
@@ -60,7 +69,7 @@ const App = () => {
       />
 
       <h3>Numbers</h3>
-      <Persons persons={personsToShow} />
+      <Persons key={persons.id} persons={personsToShow} />
     </div>
   );
 }
