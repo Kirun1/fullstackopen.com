@@ -28,8 +28,23 @@ const App = () => {
   const addPerson = (event) => {
     event.preventDefault();
 
-    if (persons.some(person => person.name.toLowerCase() === newName.toLowerCase())) {
-      alert(`${newName} is already added to phonebook`);
+    const existingPerson = persons.find(person => person.name.toLowerCase() === newName.toLowerCase());
+
+    if (existingPerson) {
+      const confirmUpdate = window.confirm(`${newName} is already added to phonebook, replace the old number with a new one?`);
+      if (confirmUpdate) {
+        const updatedPerson = { ...existingPerson, number: newNumber };
+        personService.update(existingPerson.id, updatedPerson)
+          .then(returnedPerson => {
+            setPersons(persons.map(person => person.id !== existingPerson.id ? person : returnedPerson));
+            setNewName('');
+            setNewNumber('');
+          })
+          .catch(error => {
+            console.error('Error updating person:', error);
+            alert(`Failed to updated ${existingPerson.name}. They may have already been removed.`);
+          });
+      }
       return;
     }
 
