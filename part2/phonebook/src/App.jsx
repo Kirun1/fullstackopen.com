@@ -47,6 +47,19 @@ const App = () => {
       })
   };
 
+  const handleDelete = (id, name) => {
+    if (window.confirm(`Delete ${name}?`)) {
+      personService.remove(id)
+        .then(() => {
+          setPersons(persons.filter(person => person.id !== id));
+        })
+        .catch(error => {
+          console.error('Error deleting person:', error);
+          alert(`Failed to delete ${name}. They may have already been removed.`)
+        });
+    }
+  };
+
   // Filter persons based on search term (case-insensitive)
   const personsToShow = persons.filter(person =>
     person.name.toLowerCase().includes(searchTerm.toLowerCase())
@@ -67,7 +80,7 @@ const App = () => {
       />
 
       <h3>Numbers</h3>
-      <Persons key={persons.id} persons={personsToShow} />
+      <Persons key={persons.id} persons={personsToShow} onDelete={handleDelete} />
     </div>
   );
 }
