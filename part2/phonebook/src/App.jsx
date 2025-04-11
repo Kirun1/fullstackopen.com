@@ -53,9 +53,13 @@ const App = () => {
             setNewNumber('');
           })
           .catch(error => {
-            console.error('Error updating person:', error);
-            // alert(`Failed to updated ${existingPerson.name}. They may have already been removed.`);
-            showNotification(`Failed to update ${newName}. They may have already been removed.`, 'error');
+            if (error.response && error.response.status === 404) {
+              showNotification(`Information of ${existingPerson.name} has already been removed from server`, 'error');
+              // Remove the deleted person from the state
+              setPersons(persons.filter(person => person.id !== existingPerson.id));
+            } else {
+              showNotification(`Failed to update ${newName}.`, 'error');
+            }
           });
       }
       return;
@@ -87,9 +91,14 @@ const App = () => {
           showNotification(`Deleted ${name}`, 'success');
         })
         .catch(error => {
-          console.error('Error deleting person:', error);
-          alert(`Failed to delete ${name}. They may have already been removed.`)
-          showNotification(`Failed to delete ${name}. They may have already been removed.`, 'error')
+          // Handle error if person was already deleted
+          if (error.response && error.response.status === 404) {
+            showNotification(`Information of ${name} has already been removed from server`, 'error');
+            // Remove the deleted person from the state
+            setPersons(persons.filter(person => person.id !== id));
+          } else { // Handle other errors
+            showNotification(`Failed to delete ${name}.`, 'error');
+          }
         });
     }
   };
