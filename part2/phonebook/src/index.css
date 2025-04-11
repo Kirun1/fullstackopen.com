@@ -1,0 +1,26 @@
+.notification {
+  font-size: 20px;
+  border-style: solid;
+  border-radius: 5px;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.success {
+  color: green;
+  background: lightgrey;
+}
+
+.error {
+  color: red;
+  background: lightgrey;
+}
+
+.notification {
+  /* ... existing styles ... */
+  transition: opacity 0.5s ease-out;
+}
+
+.notification.fade {
+  opacity: 0;
+}
