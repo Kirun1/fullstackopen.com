@@ -56,6 +56,19 @@ app.delete('/api/persons/:id', (request, response) => {
     }
 })
 
+app.post('/api/persons', express.json(), (request, response) => {
+    const newPerson = request.body
+    if (!newPerson.name || !newPerson.number) {
+        return response.status(400).json({ error: 'name or number missing' })
+    }
+    if (persons.some(p => p.name === newPerson.name)) {
+        return response.status(400).json({ error: 'name must be unique' })
+    }
+    newPerson.id = (Math.random() * 1000).toString()
+    persons.push(newPerson)
+    response.status(201).json(newPerson)
+})
+
 const PORT = 3001
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`)
