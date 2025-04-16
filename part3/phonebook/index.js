@@ -67,7 +67,7 @@ app.post('/api/persons', express.json(), (request, response) => {
     newPerson.id = (Math.random() * 1000).toString()
     persons.push(newPerson)
     response.status(201).json(newPerson)
-})
+}) 
 
 const PORT = 3001
 app.listen(PORT, () => {
